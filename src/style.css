@@ -1,0 +1,114 @@
+:root{
+  --bg:#0b0f18; 
+  --panel:#141b28;
+  --panel-2:#1b2331;
+  --border:#28324a;
+
+  --text:#eef2f8;
+  --text-2:#b9c4d6;
+  --text-dim:#8b98ae;
+
+  --accent:#5b8cff;
+  --accent-2:#22d3ee;
+  --accent-soft:rgba(91, 140, 255, 0.16);
+  --danger:#f87171;
+
+  --max-w:1200px;
+  --radius:14px;
+  --radius-sm:8px;
+  --shadow:0 16px 36px rgba(0, 0, 0, 0.35);
+  --sp-1:4px;
+  --sp-2:8px;
+  --sp-3:12px;
+  --sp-4:16px;
+  --sp-5:24px;
+  --sp-6:32px;
+
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: var(--sp-5) var(--sp-4) var(--sp-6);
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 system-ui, -apple-system, "Microsoft YaHei", sans-serif;
+}
+
+.header,
+section {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-5);
+}
+
+.header h1 { margin: 0; font-size: 22px; }
+.header p { margin: 0; font-size: 13px; color: var(--text-dim); }
+
+section {
+  padding: var(--sp-5);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
+#listCount { font-size: 13px; color: var(--text-dim); }
+
+.track-list { margin: 0; padding: 0; list-style: none; }
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.track:last-child { border-bottom: none; }
+.track:hover { background: var(--panel-2); }
+
+.track-index { width: 20px; text-align: right; color: var(--text-dim); font-size: 13px; }
+
+.track-cover {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+  font-size: 18px;
+  color: #fff;
+}
+
+.track-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+.track-meta { font-size: 13px; color: var(--text-dim); }
+
+.track-mood {
+  padding: 2px var(--sp-2);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-2);
+  font-size: 12px;
+}
+
+.track-duration { font-size: 13px; color: var(--text-2); font-variant-numeric: tabular-nums; }
