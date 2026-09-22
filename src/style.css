@@ -169,5 +169,39 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
 .play-btn.is-playing .icon-play{display: none;}
 .play-btn.is-playing .icon-pause{display: block;}
 
+/* 控制键那一排 */
+.player-controls{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 循环按钮：胶囊形，图标 + 文字 */
+.ctrl-mode{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* 不给 svg 定宽高，它会撑成 300×150 那个大块 */
+.ctrl-mode .icon{
+  width: 18px;
+  height: 18px;
+}
+
+/* 单曲循环时点亮它 */
+.ctrl-mode[data-mode='single']{
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 /* 当前播放的一行 */
 .track.is-current{background: rgba(59, 109, 245, 0.14);}

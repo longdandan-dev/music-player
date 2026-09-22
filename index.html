@@ -17,7 +17,15 @@
         <p class="player-title" id="playerTitle">还没选歌</p>
         <p class="player-artist" id="playerArtist">点歌列表里任意一首开始</p>
       </div>
-      <button id="playBtn" class="play-btn" type="button" aria-label="播放">
+
+      <div class="player-controls">
+      <button id="prevBtn" class="play-btn" type="button" aria-label="上一首">
+        <svg class="icon " viewBox="0 0 24 24 " aria-hidden="true">
+          <path d="M7 5v14M18 5.5v13l-9-6.5z"></path>
+        </svg>
+      </button>
+
+      <button id="playBtn" class="play-btn" type="button" aria-label="播放/暂停">
         <svg class="icon icon-play" viewBox="0 0 24 24 " aria-hidden="true">
           <path d="M8 5v14l11-7z"></path>
         </svg>
@@ -25,6 +33,25 @@
           <path d="M7 5h4v14H7zM13 5h4v14h-4z"></path>
         </svg>
       </button>
+
+      <button id="nextBtn" class="play-btn" type="button" aria-label="下一首">
+        <svg class="icon " viewBox="0 0 24 24 " aria-hidden="true">
+          <path d="M17 5v14M6 5.5v13l9-6.5z"></path>
+        </svg>
+      </button>
+
+      <button id="loopBtn" class="ctrl-mode" type="button" data-mode="list"
+      aria-label="循环模式：列表循环（点一下切换）">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4.5 12a7.5 7.5 0 0 1 12.8-5.3M19.5 12a7.5 7.5 0 0 1-12.8 5.3"
+            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        <path d="M17.3 3.4v3.3h-3.3M6.7 20.6v-3.3h3.3"  fill="none" 
+        stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span id="loopText">循环播放</span>
+      </button>
+      
+      </div>
     </section>
 
     <section class="list-section">
@@ -32,7 +59,7 @@
       <span id="listCount">0首</span>
       <ul id="trackList" class="track-list"></ul>
     </section>
-    
+
     <script type="module" src="/src/main.js"></script>
       <audio id="audio" preload="metadata"></audio>
 

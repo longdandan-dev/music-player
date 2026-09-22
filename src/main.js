@@ -75,6 +75,12 @@ const tracks = [
     },
 ]
 
+const LOOP_MODES= {
+    list: {text:'列表循环', next:'single'},
+    single: {text:'单曲循环', next:'none'},
+    none: {text:'顺序播放', next:'list'},
+}
+
 // 函数渲染区
 // 模板函数
 const trackTemplate = (track, index) =>`
@@ -115,8 +121,13 @@ const playerEl = document.querySelector('#player')
 const playerTitle = document.querySelector('#playerTitle')
 const playerArtist = document.querySelector('#playerArtist')
 const playerCover = document.querySelector('#playerCover')
+const loopBtn = document.querySelector('#loopBtn')
+const loopText = document.querySelector('#loopText')
+const prevBtn = document.querySelector('#prevBtn')
+const nextBtn = document.querySelector('#nextBtn')
 
 let currentIndex = -1  //还没选过歌
+let loopMode = 'list'
 //把当前在播放那一首歌画在画板上
 function renderNowPlaying(){
     const track = tracks[currentIndex]
@@ -153,11 +164,33 @@ function renderPlayState(){
     document.querySelectorAll('#trackList .track').forEach((li,index)=>{
         li.classList.toggle('is-current',index === currentIndex)
     })
+
+    
+}
+
+function renderLoopState(){
+    const mode = LOOP_MODES[loopMode]
+    loopBtn.dataset.mode = loopMode
+    loopText.textContent = mode.text
 }
 
 audio.addEventListener('play',renderPlayState)
 audio.addEventListener('pause',renderPlayState)
-
+audio.addEventListener('ended',()=>{
+    if(loopMode === 'single'){
+        audio.currentTime = 0
+        audio.play()
+        return 
+    }
+    if(loopMode === 'none' && currentIndex === tracks.length - 1){
+        stopAtEnd()
+        return
+    }
+       playSibling(1)
+})
+loopBtn.addEventListener('click',cycleLoopMode)
+prevBtn.addEventListener('click',playPrev)
+nextBtn.addEventListener('click',()=>playSibling(1))
 //播放按钮的点击
 playBtn.addEventListener('click',()=>{
     if(audio.paused){
@@ -180,3 +213,42 @@ listEl.addEventListener('click',(event)=>{
     }
     playTrack(index)
 })  
+
+
+//切歌永远走屏幕上看的到的队列
+function getQueue(){
+    return tracks
+}
+//切歌函数
+function playSibling(dir){
+    const queue = getQueue()
+    if(queue.length === 0) return 
+    if(currentIndex < 0 ){
+        playTrack(0)
+        return
+    }
+    let next = currentIndex + dir
+    if(next >= queue.length) next = 0
+    if(next < 0)next = queue.length - 1
+    playTrack(next)
+
+
+}
+
+function playPrev(){
+    if (audio.currentTime > 3) audio.currentTime = 0
+    else playSibling(-1)
+}
+
+function stopAtEnd(){
+    audio.pause()
+    audio.currentTime = 0
+
+}
+// 切换函数
+function cycleLoopMode(){
+    loopMode = LOOP_MODES[loopMode].next
+    renderLoopState()
+}
+renderLoopState()
+
