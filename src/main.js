@@ -125,6 +125,9 @@ const loopBtn = document.querySelector('#loopBtn')
 const loopText = document.querySelector('#loopText')
 const prevBtn = document.querySelector('#prevBtn')
 const nextBtn = document.querySelector('#nextBtn')
+const seek = document.querySelector('#seek')
+const timeNow = document.querySelector('#timeNow')
+const timeTotal = document.querySelector('#timeTotal')
 
 let currentIndex = -1  //还没选过歌
 let loopMode = 'list'
@@ -138,6 +141,7 @@ function renderNowPlaying(){
     playerCover.style.setProperty('--c1',track.c1)
     playerCover.style.setProperty('--c2',track.c2)
 }
+
 //播放第index首
 function playTrack(index){
     const track = tracks[index]
@@ -147,12 +151,14 @@ function playTrack(index){
         currentIndex = index
         audio.src = track.src
         renderNowPlaying()
+        renderProgress()
     }
 
     audio.play().catch((err) =>{
         console.error('播放失败:',err)
     })
 }
+
 //状态写回
 function renderPlayState(){
     const isPlaying = !audio.paused
@@ -174,8 +180,25 @@ function renderLoopState(){
     loopText.textContent = mode.text
 }
 
+function renderProgress(){
+    const duration = audio.duration || 0
+    const percent = duration > 0 ? (audio.currentTime / duration) *100 : 0
+
+    timeNow.textContent = formatTime(audio.currentTime)
+    timeTotal.textContent = formatTime(duration)
+
+    seek.disabled = currentIndex < 0
+    seek.value = String(Math.round(percent * 10))
+    seek.style.setProperty('--played',percent.toFixed(1) + '%')
+
+}
+
+//事件监听
 audio.addEventListener('play',renderPlayState)
 audio.addEventListener('pause',renderPlayState)
+audio.addEventListener('timeupdate',renderProgress)
+audio.addEventListener('loadedmetadata',renderProgress)
+audio.addEventListener('durationchange',renderProgress)
 audio.addEventListener('ended',()=>{
     if(loopMode === 'single'){
         audio.currentTime = 0
@@ -251,4 +274,4 @@ function cycleLoopMode(){
     renderLoopState()
 }
 renderLoopState()
-
+renderProgress()
