@@ -245,3 +245,40 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
   font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
+
+/* 音量那一行 */
+.volume-row{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* 静音按钮：小号圆按钮 */
+.mute-btn{
+  width: 32px;
+  height: 32px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+}
+
+.mute-btn .icon{
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  display: block;
+}
+
+/* 两个图标只显示一个：默认藏"打叉的"，静音时反过来 */
+.mute-btn .icon-muted{ display: none; }
+.mute-btn.is-muted .icon-volume{ display: none; }
+.mute-btn.is-muted .icon-muted{ display: block; }
+
+/* 音量条窄一点，别占满整行 */
+.volume{ max-width: 160px; }

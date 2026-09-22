@@ -24,6 +24,20 @@
                     <span id="timeTotal">0:00</span>
                   </div>
         </div>
+        <div class="volume-row">
+          <button id="muteBtn" class="mute-btn" type="button" aria-label="静音">
+            <svg class="icon icon-volume" viewBox="0 0 24 24 " aria-hidden="true">
+            <path d="M4 9.5h3L11 6v12l-4-3.5H4z"></path>
+            </svg>
+            <svg class="icon icon-muted" viewBox="0 0 24 24 " aria-hidden="true">
+            <path d="M4 9.5h3L11 6v12l-4-3.5H4z"></path>
+            <path d="M15 9.5l4 5M19 9.5l-4 5"  fill="none" 
+                   stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+           <input class="range volume" id="volume" type="range" min="0" max="1" step="0.01" value="0.8"
+           aria-label="音量">
+        </div>
       </div>
 
       <div class="player-controls">

@@ -128,6 +128,8 @@ const nextBtn = document.querySelector('#nextBtn')
 const seek = document.querySelector('#seek')
 const timeNow = document.querySelector('#timeNow')
 const timeTotal = document.querySelector('#timeTotal')
+const muteBtn = document.querySelector('#muteBtn')
+const volumeEl = document.querySelector('#volume')
 
 let currentIndex = -1  //还没选过歌
 let loopMode = 'list'
@@ -200,6 +202,12 @@ function seekTo(percent){
     renderProgress()
 }
 
+function renderVolumeState(){
+    const muted = audio.muted || audio.volume === 0 
+    muteBtn.classList.toggle('is-muted',muted)
+    muteBtn.setAttribute('aria-label',muted ? '取消静音' : '静音')
+}
+
 //事件监听
 audio.addEventListener('play',renderPlayState)
 audio.addEventListener('pause',renderPlayState)
@@ -215,6 +223,23 @@ seek.addEventListener('input',(event)=>{
 seek.addEventListener('change',(event)=>{
     seekTo(Number(event.target.value) / 10)
     isSeeking = false
+})
+//拖音量条
+volumeEl.addEventListener('input',(event)=>{
+    audio.volume = Number(event.target.value)   // 0 ~ 1，原样给它，不用换算
+    audio.muted = audio.volume === 0            // 拖到 0 就算静音
+    renderVolumeState()
+})
+
+//点喇叭：静音 / 取消静音
+muteBtn.addEventListener('click',()=>{
+    audio.muted = !audio.muted
+    //取消静音时如果音量是 0，抬回一半，不然点了没反应
+    if(!audio.muted && audio.volume === 0){
+        audio.volume = 0.5
+        volumeEl.value = '0.5'
+    }
+    renderVolumeState()
 })
 audio.addEventListener('ended',()=>{
     if(loopMode === 'single'){
@@ -293,3 +318,4 @@ function cycleLoopMode(){
 }
 renderLoopState()
 renderProgress()
+renderVolumeState()
