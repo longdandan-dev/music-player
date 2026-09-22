@@ -10,11 +10,31 @@
       <h1>· 听风播放器 </h1>
       <p>原生js项目</p>
     </header>
-    <section>
+
+    <section class="player" id="player">
+      <div class="player-cover" id="playerCover" style="--c1:#3b6df5;--c2:#8b5cf6">凌</div>
+      <div class="player-info">
+        <p class="player-title" id="playerTitle">还没选歌</p>
+        <p class="player-artist" id="playerArtist">点歌列表里任意一首开始</p>
+      </div>
+      <button id="playBtn" class="play-btn" type="button" aria-label="播放">
+        <svg class="icon icon-play" viewBox="0 0 24 24 " aria-hidden="true">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg class="icon icon-pause" viewBox="0 0 24 24 " aria-hidden="true">
+          <path d="M7 5h4v14H7zM13 5h4v14h-4z"></path>
+        </svg>
+      </button>
+    </section>
+
+    <section class="list-section">
       <h2>播放列表</h2>
       <span id="listCount">0首</span>
       <ul id="trackList" class="track-list"></ul>
     </section>
+    
     <script type="module" src="/src/main.js"></script>
+      <audio id="audio" preload="metadata"></audio>
+
   </body>
 </html>

@@ -107,4 +107,76 @@ function renderlist(){
 }
 renderlist()
 
-console.log(trackTemplate(tracks[0],0));
+
+// 播放器区
+const audio = document.querySelector('#audio')
+const playBtn = document.querySelector('#playBtn')
+const playerEl = document.querySelector('#player')
+const playerTitle = document.querySelector('#playerTitle')
+const playerArtist = document.querySelector('#playerArtist')
+const playerCover = document.querySelector('#playerCover')
+
+let currentIndex = -1  //还没选过歌
+//把当前在播放那一首歌画在画板上
+function renderNowPlaying(){
+    const track = tracks[currentIndex]
+    if(!track) return
+    playerTitle.textContent = track.title
+    playerArtist.textContent = `${track.artist} · ${track.album}`
+    playerCover.textContent = track.title.slice(0,1)
+    playerCover.style.setProperty('--c1',track.c1)
+    playerCover.style.setProperty('--c2',track.c2)
+}
+//播放第index首
+function playTrack(index){
+    const track = tracks[index]
+    if(!track)return
+
+    if(index !==currentIndex){ //真换歌再动src
+        currentIndex = index
+        audio.src = track.src
+        renderNowPlaying()
+    }
+
+    audio.play().catch((err) =>{
+        console.error('播放失败:',err)
+    })
+}
+//状态写回
+function renderPlayState(){
+    const isPlaying = !audio.paused
+
+    playBtn.classList.toggle('is-playing',isPlaying)
+    playerEl.classList.toggle('is-playing',isPlaying)
+    listEl.classList.toggle('is-playing',isPlaying)
+
+    document.querySelectorAll('#trackList .track').forEach((li,index)=>{
+        li.classList.toggle('is-current',index === currentIndex)
+    })
+}
+
+audio.addEventListener('play',renderPlayState)
+audio.addEventListener('pause',renderPlayState)
+
+//播放按钮的点击
+playBtn.addEventListener('click',()=>{
+    if(audio.paused){
+        playTrack(currentIndex < 0 ? 0 : currentIndex)
+    }else{
+        audio.pause()
+    }
+})
+
+//事件委托
+listEl.addEventListener('click',(event)=>{
+    const row = event.target.closest('.track')
+    if(!row)return
+    const index =tracks.findIndex((track) =>track.id === row.dataset.id)
+    if(index < 0)return
+
+    if(index === currentIndex && !audio.paused){
+        audio.pause()
+        return
+    }
+    playTrack(index)
+})  
