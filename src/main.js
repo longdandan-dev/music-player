@@ -131,6 +131,7 @@ const timeTotal = document.querySelector('#timeTotal')
 
 let currentIndex = -1  //还没选过歌
 let loopMode = 'list'
+let isSeeking = false
 //把当前在播放那一首歌画在画板上
 function renderNowPlaying(){
     const track = tracks[currentIndex]
@@ -193,12 +194,28 @@ function renderProgress(){
 
 }
 
+function seekTo(percent){
+    if(!audio.duration) return
+    audio.currentTime  = (percent / 100) * audio.duration
+    renderProgress()
+}
+
 //事件监听
 audio.addEventListener('play',renderPlayState)
 audio.addEventListener('pause',renderPlayState)
-audio.addEventListener('timeupdate',renderProgress)
+audio.addEventListener('timeupdate',()=>{if(!isSeeking) renderProgress()})
 audio.addEventListener('loadedmetadata',renderProgress)
 audio.addEventListener('durationchange',renderProgress)
+seek.addEventListener('input',(event)=>{
+    isSeeking = true
+    const percent = Number(event.target.value) / 10
+    seek.style.setProperty('--played', percent.toFixed(1) + '%')
+    timeNow.textContent = formatTime((percent / 100)* audio.duration)
+})
+seek.addEventListener('change',(event)=>{
+    seekTo(Number(event.target.value) / 10)
+    isSeeking = false
+})
 audio.addEventListener('ended',()=>{
     if(loopMode === 'single'){
         audio.currentTime = 0
@@ -222,6 +239,7 @@ playBtn.addEventListener('click',()=>{
         audio.pause()
     }
 })
+
 
 //事件委托
 listEl.addEventListener('click',(event)=>{
