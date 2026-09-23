@@ -79,7 +79,20 @@
     <section class="list-section">
       <h2>播放列表</h2>
       <span id="listCount">0首</span>
+      <div class="toolbar">
+        <input class="search" id="search" type="search" placeholder="搜歌名 / 歌手 / 专辑"
+               aria-label="搜索歌曲" autocomplete="off" >
+      </div>
+      <div class="tabs" role="group" aria-label="筛选">
+        <button class="tab is-active" id="filterAll"   type="button" data-filter="all" aria-pressed="true">全部</button>
+        <button class="tab"           id="filterFav"   type="button" data-filter="fav" aria-pressed="false">收藏 
+          <span id="favCount">0</span>
+        </button>
+      </div>
       <ul id="trackList" class="track-list"></ul>
+      <p class="empty" id="empty" hidden>
+        这里什么都没有
+      </p>
     </section>
 
     <footer class="app-footer">
