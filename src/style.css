@@ -24,6 +24,28 @@
   --sp-5:24px;
   --sp-6:32px;
 
+    /* 字号阶梯：只允许这 6 档 */
+  --fs-xs:12px;   /* 标签、时间、页脚、kbd */
+  --fs-sm:13px;   /* 次级信息、计数、胶囊按钮 */
+  --fs-md:16px;   /* 正文、歌名 */
+  --fs-lg:18px;   /* 列表小封面首字 */
+  --fs-xl:20px;   /* 区块标题 */
+  --fs-2xl:22px;  /* 页面标题 */
+  /* 封面首字是装饰性大字号，不占上面 6 档 */
+  --fs-cover-sm:22px;
+  --fs-cover-md:48px;
+  --fs-cover-lg:64px;
+
+  /* 间距：一律 4 的倍数，--sp-half 是唯一的半格 */
+  --sp-half:2px;
+  --sp-7:48px;
+  --sp-8:64px;
+
+  /* 扩展色 */
+  --on-accent:#ffffff;                  /* 主色块上的文字和图标 */
+  --accent-ring:rgba(91, 140, 255, 0.25); /* 滑块圆点的光圈 */
+  --danger-bg:#2a1620;
+  --danger-text:#ffe4e6;
 }
 
 * { box-sizing: border-box; }
@@ -89,7 +111,7 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
   border-radius: var(--radius-sm);
   background: linear-gradient(135deg, var(--c1), var(--c2));
   font-size: 18px;
-  color: #fff;
+  color: var(--on-accent);
 }
 
 .track-title {
@@ -121,7 +143,7 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
   gap: 16px;
   padding:16px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
+  background:var(--panel-2);
 }
 
 /* //播放器画板 */
@@ -157,8 +179,8 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
   border: 0;
   border-radius: 50%;
   cursor: pointer;
-  color:#fff;
-  background: #3b6df5;
+  color:var(--on-accent);
+  background: var(--accent);
 }
 
 .play-btn .icon{
@@ -209,7 +231,7 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
 }
 
 /* 当前播放的一行 */
-.track.is-current{background: rgba(59, 109, 245, 0.14);}
+.track.is-current{background: var(--accent-soft);}
 
 /* 进度条和时间 */
 .progress-row { margin-top: 10px; }
@@ -235,8 +257,8 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
   height: 14px;
   border: none;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(91, 140, 255, 0.25);
+  background:var(--on-accent);
+  box-shadow: 0 0 0 3px var(--accent-ring);
 }
 
 .range:disabled { cursor: not-allowed; opacity: 0.55; }
@@ -305,7 +327,7 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
   border-radius: 4px;
   background: var(--panel-2);
   font-family: inherit;
-  font-size: 11px;
+  font-size: var(--fs-xs);
 }
 
 .fav-btn{ 
@@ -374,8 +396,8 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
   padding: var(--sp-3) var(--sp-4);
   border: 1px solid var(--danger);
   border-radius: var(--radius-sm);
-  background: #2a1620;
-  color: #ffe4e6;
+  background: var(--danger-bg);
+  color: var(--danger-text);
   font-size: 14px;
   opacity: 0; pointer-events: none;
   transition: opacity .2s, transform .2s;
@@ -392,7 +414,7 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
   padding: 10px 14px;
   border-radius:var(--radius-sm) ;
   background: var(--accent);
-  color: #fff;
+  color:var(--on-accent);
   text-decoration: none;
 }
 .skip-link:focus{top: 12px;}
