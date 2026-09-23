@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="听风播放器：原生HTML / CSS /JavaScript 写的单页音乐播放器，支持播放列表、三种循环模式、进度拖动、音量、搜索与收藏">
+    <link rel="icon" href="data:image/svg+xml,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'>
+      <rect width='32' height='32' rx='8' fill='%235b8cff'/>
+      <path d='M12 9v12l10-6z' fill='%23fff'/>
+    </svg>">
+    <title>听风播放器</title>
+    <script type="module" crossorigin src="/music-player/assets/index-BIJNLScu.js"></script>
+    <link rel="stylesheet" crossorigin href="/music-player/assets/index-Bu5rOcFP.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#trackList"> 跳到播放器列表</a>
+    <header class="header">
+      <h1>· 听风播放器 </h1>
+      <p>原生js项目</p>
+    </header>
+    <main>
+    <div class="layout">
+    <section class="player" id="player">
+      <div class="player-cover" id="playerCover" style="--c1:#3b6df5;--c2:#8b5cf6">凌</div>
+      <div class="player-info">
+        <p class="player-title" id="playerTitle">还没选歌</p>
+        <p class="player-artist" id="playerArtist">点歌列表里任意一首开始</p>
+        <div class="progress-row">
+          <input class="range seek" id="seek" type="range" min="0" max="1000" step="1"
+                  value="0" aria-label="播放进度" disabled>
+                  <div class="times">
+                    <span id="timeNow">0:00</span>
+                    <span id="timeTotal">0:00</span>
+                  </div>
+        </div>
+        <div class="volume-row">
+          <button id="muteBtn" class="mute-btn" type="button" aria-label="静音">
+            <svg class="icon icon-volume" viewBox="0 0 24 24 " aria-hidden="true">
+            <path d="M4 9.5h3L11 6v12l-4-3.5H4z"></path>
+            </svg>
+            <svg class="icon icon-muted" viewBox="0 0 24 24 " aria-hidden="true">
+            <path d="M4 9.5h3L11 6v12l-4-3.5H4z"></path>
+            <path d="M15 9.5l4 5M19 9.5l-4 5"  fill="none" 
+                   stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+           <input class="range volume" id="volume" type="range" min="0" max="1" step="0.01" value="0.8"
+           aria-label="音量">
+        </div>
+      </div>
+
+      <div class="player-controls">
+      <button id="prevBtn" class="play-btn" type="button" aria-label="上一首">
+        <svg class="icon " viewBox="0 0 24 24 " aria-hidden="true">
+          <path d="M7 5v14M18 5.5v13l-9-6.5z"></path>
+        </svg>
+      </button>
+
+      <button id="playBtn" class="play-btn" type="button" aria-label="播放/暂停">
+        <svg class="icon icon-play" viewBox="0 0 24 24 " aria-hidden="true">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg class="icon icon-pause" viewBox="0 0 24 24 " aria-hidden="true">
+          <path d="M7 5h4v14H7zM13 5h4v14h-4z"></path>
+        </svg>
+      </button>
+
+      <button id="nextBtn" class="play-btn" type="button" aria-label="下一首">
+        <svg class="icon " viewBox="0 0 24 24 " aria-hidden="true">
+          <path d="M17 5v14M6 5.5v13l9-6.5z"></path>
+        </svg>
+      </button>
+
+      <button id="loopBtn" class="ctrl-mode" type="button" data-mode="list"
+      aria-label="循环模式：列表循环（点一下切换）">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4.5 12a7.5 7.5 0 0 1 12.8-5.3M19.5 12a7.5 7.5 0 0 1-12.8 5.3"
+            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        <path d="M17.3 3.4v3.3h-3.3M6.7 20.6v-3.3h3.3"  fill="none" 
+        stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span id="loopText">循环播放</span>
+      </button>
+      
+      </div>
+    </section>
+
+    <section class="list-section">
+      <h2>播放列表</h2>
+      <span id="listCount">0首</span>
+      <div class="toolbar">
+        <input class="search" id="search" type="search" placeholder="搜歌名 / 歌手 / 专辑"
+               aria-label="搜索歌曲" autocomplete="off" >
+      </div>
+      <div class="tabs" role="group" aria-label="筛选">
+        <button class="tab is-active" id="filterAll"   type="button" data-filter="all" aria-pressed="true">全部</button>
+        <button class="tab"           id="filterFav"   type="button" data-filter="fav" aria-pressed="false">收藏 
+          <span id="favCount">0</span>
+        </button>
+      </div>
+      <ul id="trackList" class="track-list" tabindex="-1"></ul>
+      <p class="empty" id="empty" hidden>
+        这里什么都没有
+      </p>
+    </section>
+    
+    </div>
+    </main>
+    <footer class="app-footer">
+      <p>
+        快捷键：<kbd>空格</kbd> 播放 / 暂停 · <kbd>←</kbd> <kbd>→</kbd> 后退 / 前进 5 秒 ·
+        <kbd>↑</kbd> <kbd>↓</kbd> 音量
+      </p>
+    </footer>
+
+      <audio id="audio" preload="metadata"></audio>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
