@@ -208,6 +208,36 @@ function renderVolumeState(){
     muteBtn.setAttribute('aria-label',muted ? '取消静音' : '静音')
 }
 
+// 键盘键快捷键、空格播放暂停、左右键前后5秒、上下键调音量
+function onKeyDown(event){
+    const tag = event.target.tagName
+    if(tag === 'INPUT' || tag === 'TEXTAREA')return
+    if(event.metaKey || event.ctrlKey || event.altKey)return
+
+    if(event.code === 'Space'){
+        event.preventDefault()
+        togglePlay()
+    }else if(event.code === 'ArrowRight'){
+        event.preventDefault()
+        audio.currentTime = Math.min(audio.duration || 0,audio.currentTime + 5)
+        renderProgress()
+    }else if(event.code === 'ArrowLeft'){
+        event.preventDefault()
+        audio.currentTime = Math.max(0, audio.currentTime - 5)
+        renderProgress()
+    }else if(event.code ==='ArrowUp' || event.code === 'ArrowDown'){
+        event.preventDefault()
+        const step = event.code === 'ArrowUp' ? 0.05 : -0.05
+        const next = Math.min(1, Math.max(0, audio.volume + step))
+        audio.volume = next
+        audio.muted = next === 0
+        volumeEl.value = String(next)
+        renderVolumeState()
+    }
+}
+document.addEventListener('keydown',onKeyDown)
+
+
 //事件监听
 audio.addEventListener('play',renderPlayState)
 audio.addEventListener('pause',renderPlayState)
@@ -257,14 +287,15 @@ loopBtn.addEventListener('click',cycleLoopMode)
 prevBtn.addEventListener('click',playPrev)
 nextBtn.addEventListener('click',()=>playSibling(1))
 //播放按钮的点击
-playBtn.addEventListener('click',()=>{
+playBtn.addEventListener('click',togglePlay)
+
+function togglePlay(){
     if(audio.paused){
         playTrack(currentIndex < 0 ? 0 : currentIndex)
     }else{
         audio.pause()
     }
-})
-
+}
 
 //事件委托
 listEl.addEventListener('click',(event)=>{
@@ -318,4 +349,5 @@ function cycleLoopMode(){
 }
 renderLoopState()
 renderProgress()
+audio.volume = Number(volumeEl.value)
 renderVolumeState()

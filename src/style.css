@@ -282,3 +282,23 @@ section h2 { margin: 0 0 var(--sp-4); font-size: 20px; }
 
 /* 音量条窄一点，别占满整行 */
 .volume{ max-width: 160px; }
+
+/* 页脚：快捷键提示 */
+.app-footer{
+  max-width: var(--max-w);
+  margin: var(--sp-5) auto 0;
+  color: var(--text-dim);
+  font-size: 12px;
+  text-align: center;
+}
+
+.app-footer p{margin:0}
+
+.app-footer kbd{
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--panel-2);
+  font-family: inherit;
+  font-size: 11px;
+}
