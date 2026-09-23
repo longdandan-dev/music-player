@@ -73,6 +73,18 @@ const tracks = [
         c1:'#f59e0b',
         c2:'#ef4444',
     },
+
+    {
+        id:'t7',
+        title:'错误音频',
+        artist:'木子',
+        album:'出发',
+        mood:'流行',
+        duration:25.21,
+        src:'/audio/07-broken.wav',
+        c1:'#f59e0b',
+        c2:'#ef4444',
+    },
 ]
 
 const LOOP_MODES= {
@@ -88,6 +100,8 @@ let loopMode = 'list'
 let isSeeking = false
 let filter = 'all'
 let favorites = []
+let brokenIds = []
+let toastTimer = null
 
 const STORAGE_KEY = 'tingfeng-player-state'
 const listEl = document.querySelector('#trackList')
@@ -108,9 +122,11 @@ const timeTotal = document.querySelector('#timeTotal')
 const muteBtn = document.querySelector('#muteBtn')
 const volumeEl = document.querySelector('#volume')
 const emptyEl = document.querySelector('#empty')
+const toastEl = document.querySelector('#toast')
 
 
 //事件监听
+audio.addEventListener('error',handleAudioError)
 audio.addEventListener('play',renderPlayState)
 audio.addEventListener('pause',renderPlayState)
 audio.addEventListener('timeupdate',()=>{if(!isSeeking) renderProgress()})
@@ -209,7 +225,7 @@ listEl.addEventListener('click',(event)=>{
 const trackTemplate = (track, index) =>{
     const isFav = favorites.includes(track.id)
     return `
-    <li class="track" data-id="${track.id}">
+    <li class="track${brokenIds.includes(track.id) ? ' is-broken' : ''}" data-id="${track.id}">
         <span class="track-index">${index + 1}</span>
         <span class="track-cover" style="--c1:${track.c1};--c2:${track.c2}">${track.title.slice(0,1)}</span>
         <span class="track-title">${track.title}</span>
@@ -313,7 +329,9 @@ function renderPlayState(){
    
     const current = tracks[currentIndex]
     document.querySelectorAll('#trackList .track').forEach((li)=>{
-        li.classList.toggle('is-current',li.dataset.id === (current ? current.id : ''))
+        const isCurrent = li.dataset.id === (current ? current.id : '')
+        li.classList.toggle('is-current',isCurrent)
+        li.setAttribute('aria-current', isCurrent ? 'true' : 'false')
     })
 
     
@@ -495,6 +513,37 @@ function restoreState(){
         currentIndex = index
         audio.src =tracks[index].src
     }
+}
+
+function handleAudioError(){
+    const track = getCurrentTrack()
+    if(!track)return 
+    if(!brokenIds.includes(track.id)) brokenIds.push(track.id)
+    renderlist()
+
+    const playable = getQueue().filter((item) => !brokenIds.includes(item.id))
+    if(playable.length === 0 ){
+        showToasts('这个列表的歌都放不出来,检查一下音频文件吧','error')
+        renderPlayState()
+        return
+    }
+    showToasts(`《${track.title}》播放失败，已自动跳到下一首`,'error')
+    playSibling(1)
+}
+
+function getCurrentTrack(){
+    const track = tracks[currentIndex]
+    return track || null
+}
+
+function showToasts(message,type = 'info'){
+    toastEl.textContent = message
+    toastEl.dataset.type = type
+    toastEl.classList.add('is-show')
+    clearTimeout(toastTimer)
+    toastTimer = setTimeout(() => {
+        toastEl.classList.remove('is-show')
+    }, 4000);
 }
 
 audio.volume = Number(volumeEl.value)

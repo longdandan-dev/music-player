@@ -3,14 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="听风播放器：原生HTML / CSS /JavaScript 写的单页音乐播放器，支持播放列表、三种循环模式、进度拖动、音量、搜索与收藏">
+    <link rel="icon" href="data:image/svg+xml,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'>
+      <rect width='32' height='32' rx='8' fill='%235b8cff'/>
+      <path d='M12 9v12l10-6z' fill='%23fff'/>
+    </svg>">
     <title>听风播放器</title>
   </head>
   <body>
+    <a class="skip-link" href="#trackList"> 跳到播放器列表</a>
     <header class="header">
       <h1>· 听风播放器 </h1>
       <p>原生js项目</p>
     </header>
-
+    <main>
+    <div class="layout">
     <section class="player" id="player">
       <div class="player-cover" id="playerCover" style="--c1:#3b6df5;--c2:#8b5cf6">凌</div>
       <div class="player-info">
@@ -89,12 +97,14 @@
           <span id="favCount">0</span>
         </button>
       </div>
-      <ul id="trackList" class="track-list"></ul>
+      <ul id="trackList" class="track-list" tabindex="-1"></ul>
       <p class="empty" id="empty" hidden>
         这里什么都没有
       </p>
     </section>
-
+    
+    </div>
+    </main>
     <footer class="app-footer">
       <p>
         快捷键：<kbd>空格</kbd> 播放 / 暂停 · <kbd>←</kbd> <kbd>→</kbd> 后退 / 前进 5 秒 ·
@@ -105,5 +115,6 @@
     <script type="module" src="/src/main.js"></script>
       <audio id="audio" preload="metadata"></audio>
 
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </body>
 </html>
