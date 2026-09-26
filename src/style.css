@@ -241,7 +241,10 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
 }
 
 /* 当前播放的一行 */
-.track.is-current{background: var(--accent-soft);}
+.track.is-current{
+  background: var(--accent-soft);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
 
 /* 进度条和时间 */
 .progress-row { margin-top: var(--sp-3); }
