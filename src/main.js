@@ -228,7 +228,10 @@ const trackTemplate = (track, index) =>{
     const isFav = favorites.includes(track.id)
     return `
     <li class="track${brokenIds.includes(track.id) ? ' is-broken' : ''}" data-id="${track.id}">
-        <span class="track-index">${index + 1}</span>
+        <span class="track-index">
+            <span class="num">${index + 1}</span>
+            <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+            </span>
         <span class="track-cover" style="--c1:${track.c1};--c2:${track.c2}">${track.title.slice(0,1)}</span>
         <span class="track-title">${track.title}</span>
         <span class="track-meta">${track.artist} · ${track.album}</span>

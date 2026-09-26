@@ -102,7 +102,50 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
 .track:last-child { border-bottom: none; }
 .track:hover { background: var(--panel-2); }
 
-.track-index { width: 20px; text-align: right; color: var(--text-dim); font-size: var(--fs-sm); }
+.track-index { 
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 20px; 
+  text-align: right; 
+  color: var(--text-dim); 
+  font-size: var(--fs-sm); 
+}
+
+.bars{
+  display: none;
+  align-items: flex-end;
+  gap: var(--sp-half);
+}
+.bars i{
+  width: 3px;
+  height: 14px;
+  border-radius: var(--sp-half);
+  background: var(--accent-2);
+  transform-origin: bottom;
+  animation: bounce .9s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.bars i:nth-child(2) { animation-delay: .15s; }
+.bars i:nth-child(3) { animation-delay: .3s; }
+
+.track-list.is-playing .bars i{
+  animation-play-state: running;
+}
+
+.track.is-current .bars{
+  display: inline-flex;
+}
+
+.track.is-current .num{
+  display: none;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scaleY(0.35); }
+  50%      { transform: scaleY(1); }
+}
 
 .track-cover {
   width: 44px;
@@ -460,5 +503,6 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
 
 @media (prefers-reduced-motion: reduce) {
   .player-cover{animation: none;}
+  .bars i{animation: none;}
   *{transition: none !important;}
 }
