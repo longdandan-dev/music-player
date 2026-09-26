@@ -46,8 +46,9 @@
   --accent-ring:rgba(91, 140, 255, 0.25); /* 滑块圆点的光圈 */
   --danger-bg:#2a1620;
   --danger-text:#ffe4e6;
+  --glow:rgba(91, 140, 255, 0.38);/*播放中的主色光景*/
+  --shadow-cover:0 8px 22px rgba(0,0,0,0.4);/*封面本身的投影，让他浮起来*/
 }
-
 * { box-sizing: border-box; }
 
 body {
@@ -168,10 +169,12 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
   background: linear-gradient(135deg,var(--c1),var(--c2));
   animation: spin 9s linear infinite;
   animation-play-state: paused;
+  transition:box-shadow 0.2s ease;
 }
 
 .player.is-playing .player-cover{
   animation-play-state: running;
+  box-shadow: var(--shadow-cover) , 0 0 24px var(--glow);
 }
 
 @keyframes spin{
