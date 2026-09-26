@@ -82,6 +82,7 @@ section {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  position: relative;
 }
 
 section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
@@ -146,6 +147,15 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
   background:var(--panel-2);
 }
 
+.player::before,
+.list-section::before{
+  content: '';
+  position: absolute;
+  top:0;right: 0;left: 0; 
+  height: 3px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: linear-gradient(90deg,var(--accent),var(--accent-2));
+}
 /* //播放器画板 */
 .player-cover{
   width: 90px;
