@@ -11,6 +11,8 @@
   --accent:#5b8cff;
   --accent-2:#22d3ee;
   --accent-soft:rgba(91, 140, 255, 0.16);
+  --accent-light:#7aa2ff;
+  --accent-deep:#2f5fd0;
   --danger:#f87171;
 
   --max-w:1200px;
@@ -480,7 +482,7 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
 }
 .tab.is-active{ 
   border-color: var(--accent); 
-  color: var(--accent); 
+  color: var(--accent-light); 
   background: var(--accent-soft); 
 }
 .tab:active{transform: scale(0.94);}
@@ -509,7 +511,7 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
   position: fixed;left: var(--sp-5) ; top: calc(var(--sp-8) * -1); z-index: 20;
   padding: var(--sp-3) var(--sp-4);
   border-radius:var(--radius-sm) ;
-  background: var(--accent);
+  background: var(--accent-deep);
   color:var(--on-accent);
   text-decoration: none;
 }
