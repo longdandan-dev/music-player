@@ -157,6 +157,7 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
   background: linear-gradient(135deg, var(--c1), var(--c2));
   font-size: var(--fs-lg);
   color: var(--on-accent);
+  transition: transform .2s ease;
 }
 
 .track-title {
@@ -178,7 +179,7 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
   font-size: var(--fs-xs);
   display: none;
 }
-
+.track:hover .track-cover{transform: scale(1.06);}
 .track-duration { font-size: var(--fs-sm); color: var(--text-2); font-variant-numeric: tabular-nums; display: none; }
 
 .player{
@@ -249,7 +250,8 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
 .play-btn .icon-pause{display: none;}
 .play-btn.is-playing .icon-play{display: none;}
 .play-btn.is-playing .icon-pause{display: block;}
-
+.play-btn:hover{transform: translateY(-2px);}
+.play-btn:active{transform: scale(0.94);}
 /* 控制键那一排 */
 .player-controls{
   display: flex;
@@ -273,6 +275,10 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
   font-size: var(--fs-sm);
   cursor: pointer;
 }
+
+
+.ctrl-mode:hover{transform: translateY(-2px);}
+.ctrl-mode:active{transform: scale(0.94);}
 
 /* 不给 svg 定宽高，它会撑成 300×150 那个大块 */
 .ctrl-mode .icon{
@@ -365,6 +371,8 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
 .mute-btn .icon-muted{ display: none; }
 .mute-btn.is-muted .icon-volume{ display: none; }
 .mute-btn.is-muted .icon-muted{ display: block; }
+.mute-btn:hover{transform: translateY(-2px);}
+.mute-btn:active{transform: scale(0.94);}
 
 /* 音量条窄一点，别占满整行 */
 .volume{ max-width: none; }
@@ -416,6 +424,9 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
   fill: currentColor; 
 }
 
+.fav-btn:hover{transform: translateY(-2px);}
+.fav-btn:active{transform: scale(0.94);}
+
 .empty[hidden]{ display: none; }
 
 .toolbar{ margin: 0 0 var(--sp-4); }
@@ -447,6 +458,9 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
   color: var(--accent); 
   background: var(--accent-soft); 
 }
+.tab:hover{transform: translateY(-2px);}
+.tab:active{transform: scale(0.94);}
+.play-btn,.ctrl-mode,.mute-btn,.fav-btn,.tab{transition: transform .2s ease;}
 
 .toast{
   position: fixed; left: 50%; bottom: var(--sp-5);
