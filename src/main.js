@@ -9,6 +9,8 @@ let filter = 'all'
 let favorites = []
 let brokenIds = []
 let toastTimer = null
+let isLoading = false
+let isEnded = false
 
 const AUDIO_BASE = import.meta.env.BASE_URL
 const STORAGE_KEY = 'tingfeng-player-state'
@@ -31,7 +33,9 @@ const muteBtn = document.querySelector('#muteBtn')
 const volumeEl = document.querySelector('#volume')
 const emptyEl = document.querySelector('#empty')
 const toastEl = document.querySelector('#toast')
-
+const stateEl = document.querySelector('#nowState')
+const emptyTitle = document.querySelector('#emptyTitle')
+const emptyHint = document.querySelector('#emptyHint')
 
 // 数据区
 const tracks = [
@@ -129,7 +133,10 @@ const LOOP_MODES= {
 
 //事件监听
 audio.addEventListener('error',handleAudioError)
-audio.addEventListener('play',renderPlayState)
+audio.addEventListener('play',()=>{
+    isEnded = false
+    renderPlayState()
+})
 audio.addEventListener('pause',renderPlayState)
 audio.addEventListener('timeupdate',()=>{if(!isSeeking) renderProgress()})
 audio.addEventListener('loadedmetadata',renderProgress)
@@ -220,6 +227,22 @@ listEl.addEventListener('click',(event)=>{
     playTrack(index)
 })  
 
+audio.addEventListener('loadstart',()=>{
+    isLoading = true
+    renderPlayState()
+})
+audio.addEventListener('waiting',()=>{
+    isLoading = true
+    renderPlayState()
+})
+audio.addEventListener('canplay',()=>{
+    isLoading = false
+    renderPlayState()
+})
+audio.addEventListener('playing',()=>{
+    isLoading = false
+    renderPlayState()
+})
 
 
 // 函数渲染区
@@ -265,9 +288,14 @@ function renderlist(){
     :`匹配${list.length}首 / 共 ${tracks.length}首`
 
     if(list.length === 0){
-        emptyEl.textContent = (filter === 'fav' && !keyword.trim())
+        const isFavEmpty = filter === 'fav' && !keyword.trim()
+        emptyTitle.textContent = isFavEmpty
         ? '还没有收藏的歌曲，点击右边的爱心试试'
         : '没有找到匹配的歌，换个词语试试'
+
+        emptyHint.textContent = isFavEmpty
+        ? '点击列表右边的爱心，把喜欢的歌收进来'
+        : '换个关键词试试，或者切回[全部]'
     }
     emptyEl.hidden = list.length > 0
 
@@ -311,6 +339,7 @@ function playTrack(index){
     if(!track)return
 
     if(index !==currentIndex){ //真换歌再动src
+        isEnded = false
         currentIndex = index
         audio.src = track.src
         renderNowPlaying()
@@ -331,6 +360,7 @@ function renderPlayState(){
     playBtn.classList.toggle('is-playing',isPlaying)
     playerEl.classList.toggle('is-playing',isPlaying)
     listEl.classList.toggle('is-playing',isPlaying)
+    playBtn.classList.toggle('is-loading',isLoading)
    
     const current = tracks[currentIndex]
     document.querySelectorAll('#trackList .track').forEach((li)=>{
@@ -339,7 +369,24 @@ function renderPlayState(){
         li.setAttribute('aria-current', isCurrent ? 'true' : 'false')
     })
 
-    
+    renderState()
+}
+
+function renderState(){
+    const current = tracks[currentIndex]
+    const playing = !audio.paused
+
+    if(!current){
+        stateEl.textContent = '还没选歌'
+    }else if(isEnded){
+        stateEl.textContent = '播放完了'
+    }else if(isLoading){
+        stateEl.textContent = '加载中...'
+    }else if(playing){
+        stateEl.textContent = '正在播放'
+    }else{
+        stateEl.textContent = '已暂停'
+    }
 }
 
 function renderLoopState(){
@@ -440,6 +487,8 @@ function playPrev(){
 }
 
 function stopAtEnd(){
+    isEnded = true
+    isLoading = false
     audio.pause()
     audio.currentTime = 0
 

@@ -10,8 +10,8 @@
       <path d='M12 9v12l10-6z' fill='%23fff'/>
     </svg>">
     <title>听风播放器</title>
-    <script type="module" crossorigin src="/music-player/assets/index-C8f0YMzF.js"></script>
-    <link rel="stylesheet" crossorigin href="/music-player/assets/index-CIZZwR-U.css">
+    <script type="module" crossorigin src="/music-player/assets/index-DhnOoe-o.js"></script>
+    <link rel="stylesheet" crossorigin href="/music-player/assets/index-CQitX1CM.css">
   </head>
   <body>
     <a class="skip-link" href="#trackList"> 跳到播放器列表</a>
@@ -24,7 +24,8 @@
     <section class="player" id="player">
       <div class="player-cover" id="playerCover" style="--c1:#3b6df5;--c2:#8b5cf6">凌</div>
       <div class="player-info">
-        <p class="player-title" id="playerTitle">还没选歌</p>
+        <p class="player-state" id="nowState">还没选歌</p>
+        <p class="player-title" id="playerTitle">请选择歌曲</p>
         <p class="player-artist" id="playerArtist">点歌列表里任意一首开始</p>
         <div class="progress-row">
           <input class="range seek" id="seek" type="range" min="0" max="1000" step="1"
@@ -100,9 +101,13 @@
         </button>
       </div>
       <ul id="trackList" class="track-list" tabindex="-1"></ul>
-      <p class="empty" id="empty" hidden>
-        这里什么都没有
-      </p>
+      <div class="empty" id="empty" hidden>
+        <svg class="empty-icon" viewBox="0 0 48 48" aria-hidden="true">
+          
+        </svg>
+        <p class="empty-title" id="emptyTitle"></p>
+          <p class="empty-hint" id="emptyHint"></p>
+      </div>
     </section>
     
     </div>
