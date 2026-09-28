@@ -438,7 +438,7 @@ section h2 { margin: 0 0 var(--sp-4); font-size: var(--fs-xl); }
   background: var(--panel-2);
   color: var(--text);
 }
-.search:focus{ outline: none; border-color: var(--accent); }
+.search:focus{ border-color: var(--accent); }
 
 .tabs{ 
   display: flex; 
